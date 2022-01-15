@@ -1,0 +1,44 @@
+name: 'build-test'
+on: # rebuild any PRs and main branch changes
+  pull_request:
+  push:
+    branches:
+      - main
+      - 'releases/*'
+
+jobs:
+  build: # make sure build/ci work properly
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: |
+          npm install
+      - run: |
+          npm run all
+  test: # make sure the action works on a clean machine without building
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        repo_type:
+          - gitops
+          - terraform
+    steps:
+      - uses: actions/checkout@v2
+      - id: action
+        uses: ./
+        with:
+          token: ${{ secrets.GIT_ADMIN_TOKEN }}
+          owner: cloud-native-toolkit-test
+          provider: aws
+          type: ${{ matrix.repo_type }}
+          name: action-test
+          strict: true
+      - name: Delete test repo
+        run: |
+          curl \
+            -s \
+            -X DELETE \
+            -u ${{ secrets.GIT_ADMIN_USERNAME }}:${{ secrets.GIT_ADMIN_TOKEN }} \
+            -H "Accept: application/vnd.github.v3+json" \
+            https://api.github.com/repos/${{ steps.action.outputs.owner }}/${{ steps.action.outputs.repo }}

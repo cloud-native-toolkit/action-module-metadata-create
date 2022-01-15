@@ -1,0 +1,11 @@
+name: 'Create Module'
+description: 'Action to create an automation module from one of the available templates'
+author: 'Your name or organization here'
+inputs:
+  token:
+    required: true
+    description: GitHub token with the access necessary to provision a new repository in the target org
+outputs: []
+runs:
+  using: 'node12'
+  main: 'dist/index.js'
