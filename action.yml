@@ -1,11 +1,31 @@
-name: 'Create Module'
-description: 'Action to create an automation module from one of the available templates'
+name: 'Create Module Metadata'
+description: 'Action to create metadata for a module'
 author: 'Your name or organization here'
 inputs:
   token:
     required: true
     description: GitHub token with the access necessary to provision a new repository in the target org
-outputs: []
+  tagName:
+    description: The tag that will used for the module version
+    required: true
+  distDir:
+    description: The directory where the catalog should be output
+    required: true
+  strict:
+    description: Flag indicating that strict validation should be performed
+    required: false
+    default: false
+  validate:
+    description: Flag indicating that the module metadata should be validated
+    required: false
+    default: true
+  publishBranch:
+    description: The branch where the catalog should be published
+    required: false
+    default: gh-pages
+  repoSlug:
+    description: The repository slug (e.g. owner/repo)
+    required: false
 runs:
   using: 'node12'
   main: 'dist/index.js'
