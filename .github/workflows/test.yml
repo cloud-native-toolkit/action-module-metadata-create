@@ -25,7 +25,7 @@ jobs:
         with:
           token: ${{ secrets.GIT_ADMIN_TOKEN }}
           tagName: v0.1.0
-          destDir: ./output
+          distDir: ./output
           strict: true
           validate: true
           repoSlug: 'cloud-native-toolkit/terraform-ocp-login'
