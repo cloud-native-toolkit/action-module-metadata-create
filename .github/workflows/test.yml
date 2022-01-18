@@ -31,4 +31,12 @@ jobs:
           repoSlug: 'cloud-native-toolkit/terraform-ocp-login'
       - name: Print module
         run: |
+          if [[ ! -f ./output/index.yaml ]]; then
+            echo "Output file not found"
+            exit 1
+          fi
+          if [[ ! -f ./output/README.md ]]; then
+            echo "Output README not found"
+            exit 1
+          fi
           cat ./output/index.yaml
