@@ -132,11 +132,12 @@ export class ModuleMetadataService {
     }
 
     return variables.map(t => {
-      const metadataVariable: ModuleMetadataVariable | undefined = first(
+      const filteredVariables: ModuleMetadataVariable[] =
         metadataVariables.filter(m => m.name === t.name)
-      )
 
-      if (metadataVariable) {
+      if (filteredVariables.length > 0) {
+        const metadataVariable: ModuleMetadataVariable = filteredVariables[0]
+
         this.logger.info(
           `Merging variable: ${JSON.stringify({
             terraform: t,

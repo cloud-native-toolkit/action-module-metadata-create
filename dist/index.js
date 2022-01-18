@@ -233,8 +233,9 @@ class ModuleMetadataService {
                 this.logger.warning(`Variables in metadata that don't exist in module: ${JSON.stringify(result)}`);
             }
             return variables.map(t => {
-                const metadataVariable = (0, array_util_1.first)(metadataVariables.filter(m => m.name === t.name));
-                if (metadataVariable) {
+                const filteredVariables = metadataVariables.filter(m => m.name === t.name);
+                if (filteredVariables.length > 0) {
+                    const metadataVariable = filteredVariables[0];
                     this.logger.info(`Merging variable: ${JSON.stringify({
                         terraform: t,
                         metadata: metadataVariable
