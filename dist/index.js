@@ -608,10 +608,12 @@ const fs_extra_1 = __nccwpck_require__(5630);
 class MultiLineValue {
     constructor(line) {
         this.lines = [];
-        this.lines.push(line);
+        this.add(line);
     }
     add(line) {
-        this.lines.push(line);
+        const cleanedLine = line
+            .replace(/ +#.*/g, '');
+        this.lines.push(cleanedLine);
         return this;
     }
     isComplete() {
@@ -683,7 +685,8 @@ class TerraformFile {
                         current.description = description;
                     }
                     else if (/^ *default *= *(.*)/g.test(line)) {
-                        const defaultValue = line.replace(/^ *default *= *(.*)/g, '$1');
+                        const defaultValue = line
+                            .replace(/^ *default *= *(.*)/g, '$1');
                         current.default = multiLineValue = new MultiLineValue(defaultValue);
                         if (multiLineValue.isComplete()) {
                             multiLineValue = undefined;

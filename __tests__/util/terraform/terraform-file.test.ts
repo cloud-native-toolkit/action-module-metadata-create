@@ -35,7 +35,7 @@ describe('terraform-file', () => {
           name: 'list_string',
           type: 'list(string)',
           description: 'List of strings value',
-          default: ['test1', 'test2']
+          default: ['test1', 'test2', '']
         })
         expect(result.variables[4]).toEqual({
           name: 'no_default',

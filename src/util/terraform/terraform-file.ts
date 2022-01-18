@@ -25,11 +25,13 @@ export class MultiLineValue {
   private lines: string[] = []
 
   constructor(line: string) {
-    this.lines.push(line)
+    this.add(line)
   }
 
   add(line: string): MultiLineValue {
-    this.lines.push(line)
+    const cleanedLine = line.replace(/ +#.*/g, '')
+
+    this.lines.push(cleanedLine)
 
     return this
   }
