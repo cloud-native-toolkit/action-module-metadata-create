@@ -24,7 +24,7 @@ jobs:
         uses: ./
         with:
           token: ${{ secrets.GIT_ADMIN_TOKEN }}
-          tagName: v0.1.0
+          tagName: v3.0.0
           distDir: ./output
           strict: true
           validate: true

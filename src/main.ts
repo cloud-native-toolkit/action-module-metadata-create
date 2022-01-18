@@ -1,14 +1,12 @@
 import * as core from '@actions/core'
-import * as github from '@actions/github'
-import {Octokit} from '@octokit/action'
 import {join} from 'path'
-import {copyFile} from 'fs-extra';
-
+import {copyFile} from 'fs-extra'
 import {Container} from 'typescript-ioc'
+
 import {ModuleMetadataService} from './services'
 import {LoggerApi} from './util/logger'
 import {ActionLogger} from './util/logger/logger.action'
-import {YamlFile} from './util/yaml-file/yaml-file';
+import {YamlFile} from './util/yaml-file/yaml-file'
 
 async function run(): Promise<void> {
   try {
@@ -23,16 +21,16 @@ async function run(): Promise<void> {
     const metadataFile: string = core.getInput('metadataFile')
     const repoSlugInput: string = core.getInput('repoSlug')
 
-    if (!process.env.GITHUB_REPOSITORY) {
+    const repoSlug: string | undefined =
+      repoSlugInput || process.env.GITHUB_REPOSITORY
+
+    if (!repoSlug) {
       throw new Error(
         'gitSlug param and GITHUB_REPOSITORY env variable not set'
       )
     }
 
-    const repoSlug: string = repoSlugInput || process.env.GITHUB_REPOSITORY
-
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const octokit: Octokit = github.getOctokit(token) as any
+    console.log('Creating metadata')
 
     const service: ModuleMetadataService = new ModuleMetadataService()
     const {metadata} = await service.create({
@@ -50,7 +48,7 @@ async function run(): Promise<void> {
       })
     }
 
-    await (new YamlFile(join(distDir, 'index.yaml'), metadata)).write()
+    await new YamlFile(join(distDir, 'index.yaml'), metadata).write()
     await copyFile('README.md', join(distDir, 'README.md'))
   } catch (error) {
     if (error instanceof Error) core.setFailed(error.message)
