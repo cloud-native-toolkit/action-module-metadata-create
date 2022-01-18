@@ -221,6 +221,7 @@ class ModuleMetadataService {
     parseModuleVariables(metadataVariables, strict = false) {
         return __awaiter(this, void 0, void 0, function* () {
             const { variables } = yield terraform_file_1.TerraformFile.load('variables.tf');
+            this.logger.info(`Metadata variables: ${JSON.stringify(metadataVariables)}`);
             const variableNames = variables.map(v => v.name);
             const result = metadataVariables
                 .map(m => m.name)
@@ -234,7 +235,10 @@ class ModuleMetadataService {
             return variables.map(t => {
                 const metadataVariable = (0, array_util_1.first)(metadataVariables.filter(m => m.name === t.name));
                 if (metadataVariable) {
-                    this.logger.info(`Merging variable: ${JSON.stringify({ terraform: t, metadata: metadataVariable })}`);
+                    this.logger.info(`Merging variable: ${JSON.stringify({
+                        terraform: t,
+                        metadata: metadataVariable
+                    })}`);
                     return Object.assign({}, t, metadataVariable);
                 }
                 return t;
