@@ -12,7 +12,8 @@ async function run(): Promise<void> {
   try {
     Container.bind(LoggerApi).to(ActionLogger)
 
-    const token: string = core.getInput('token')
+    const logger: LoggerApi = Container.get(LoggerApi)
+
     const tagName: string = core.getInput('tagName')
     const distDir: string = core.getInput('distDir')
     const strict: boolean = core.getBooleanInput('strict')
@@ -30,7 +31,7 @@ async function run(): Promise<void> {
       )
     }
 
-    console.log('Creating metadata')
+    logger.info('Creating metadata')
 
     const service: ModuleMetadataService = new ModuleMetadataService()
     const {metadata} = await service.create({

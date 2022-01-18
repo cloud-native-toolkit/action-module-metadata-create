@@ -2,9 +2,6 @@ name: 'Create Module Metadata'
 description: 'Action to create metadata for a module'
 author: 'Your name or organization here'
 inputs:
-  token:
-    required: true
-    description: GitHub token with the access necessary to provision a new repository in the target org
   tagName:
     description: The tag that will used for the module version
     required: true

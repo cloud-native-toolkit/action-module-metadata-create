@@ -71,8 +71,12 @@ export class ModuleMetadataService {
     strict,
     metadataFile = 'module.yaml'
   }: ModuleServiceCreateParams): Promise<ModuleMetadataModel> {
+    this.logger.info(`Loading metadata file: ${metadataFile}`)
+
     const metadata: ModuleMetadataModel = (await YamlFile.load(metadataFile))
       .contents
+
+    this.logger.info(`Loaded metadata: ${JSON.stringify(metadata)}`)
 
     metadata.id = `github.com/${repoSlug}`
 

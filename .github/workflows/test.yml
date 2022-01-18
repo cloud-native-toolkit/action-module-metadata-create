@@ -23,7 +23,6 @@ jobs:
       - id: action
         uses: ./
         with:
-          token: ${{ secrets.GIT_ADMIN_TOKEN }}
           tagName: v3.0.0
           distDir: ./output
           strict: true

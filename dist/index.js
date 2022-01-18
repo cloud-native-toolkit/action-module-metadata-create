@@ -47,7 +47,7 @@ function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             typescript_ioc_1.Container.bind(logger_1.LoggerApi).to(logger_action_1.ActionLogger);
-            const token = core.getInput('token');
+            const logger = typescript_ioc_1.Container.get(logger_1.LoggerApi);
             const tagName = core.getInput('tagName');
             const distDir = core.getInput('distDir');
             const strict = core.getBooleanInput('strict');
@@ -59,7 +59,7 @@ function run() {
             if (!repoSlug) {
                 throw new Error('gitSlug param and GITHUB_REPOSITORY env variable not set');
             }
-            console.log('Creating metadata');
+            logger.info('Creating metadata');
             const service = new services_1.ModuleMetadataService();
             const { metadata } = yield service.create({
                 version: tagName,
@@ -74,7 +74,7 @@ function run() {
                     strict
                 });
             }
-            yield (new yaml_file_1.YamlFile((0, path_1.join)(distDir, 'index.yaml'), metadata)).write();
+            yield new yaml_file_1.YamlFile((0, path_1.join)(distDir, 'index.yaml'), metadata).write();
             yield (0, fs_extra_1.copyFile)('README.md', (0, path_1.join)(distDir, 'README.md'));
         }
         catch (error) {
@@ -199,8 +199,10 @@ class ModuleMetadataService {
     }
     buildModuleMetadata({ version = '0.0.0', repoSlug, strict, metadataFile = 'module.yaml' }) {
         return __awaiter(this, void 0, void 0, function* () {
+            this.logger.info(`Loading metadata file: ${metadataFile}`);
             const metadata = (yield yaml_file_1.YamlFile.load(metadataFile))
                 .contents;
+            this.logger.info(`Loaded metadata: ${JSON.stringify(metadata)}`);
             metadata.id = `github.com/${repoSlug}`;
             if (/v?0[.]0[.]0/.test(version)) {
                 this.logger.info('Found version 0.0.0. Creating empty metadata.');
