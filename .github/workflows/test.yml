@@ -18,27 +18,24 @@ jobs:
   test: # make sure the action works on a clean machine without building
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        repo_type:
-          - gitops
-          - terraform
     steps:
       - uses: actions/checkout@v2
       - id: action
         uses: ./
         with:
-          token: ${{ secrets.GIT_ADMIN_TOKEN }}
-          owner: cloud-native-toolkit-test
-          provider: aws
-          type: ${{ matrix.repo_type }}
-          name: action-test
+          tagName: v3.0.0
+          distDir: ./output
           strict: true
-      - name: Delete test repo
+          validate: true
+          repoSlug: 'cloud-native-toolkit/terraform-ocp-login'
+      - name: Print module
         run: |
-          curl \
-            -s \
-            -X DELETE \
-            -u ${{ secrets.GIT_ADMIN_USERNAME }}:${{ secrets.GIT_ADMIN_TOKEN }} \
-            -H "Accept: application/vnd.github.v3+json" \
-            https://api.github.com/repos/${{ steps.action.outputs.owner }}/${{ steps.action.outputs.repo }}
+          if [[ ! -f ./output/index.yaml ]]; then
+            echo "Output file not found"
+            exit 1
+          fi
+          if [[ ! -f ./output/README.md ]]; then
+            echo "Output README not found"
+            exit 1
+          fi
+          cat ./output/index.yaml

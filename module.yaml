@@ -1,0 +1,15 @@
+name: ocp-login
+alias: cluster
+interfaces:
+- github.com/cloud-native-toolkit/automation-modules#cluster
+type: terraform
+description: Module to perform a simple cluster login and provide the cluster path
+tags:
+    - openshift
+versions:
+- platforms:
+    - ocp4
+  dependencies: []
+  variables:
+    - name: server_url
+      scope: global

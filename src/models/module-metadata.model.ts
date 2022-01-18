@@ -24,6 +24,15 @@ export interface ModuleMetadataVariable {
   name: string
   scope?: string
   moduleRef?: ModuleMetadataModuleRef
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  default?: any
+  description?: string
+  sensitive?: boolean
+}
+
+export interface ModuleMetadataOutput {
+  name: string
+  description?: string
 }
 
 export interface ModuleMetadataVersion {
@@ -31,9 +40,12 @@ export interface ModuleMetadataVersion {
   providers: ModuleMetadataProvider[]
   dependencies: ModuleMetadataDependency[]
   variables: ModuleMetadataVariable[]
+  outputs: ModuleMetadataOutput[]
+  version: string
 }
 
 export interface ModuleMetadataModel {
+  id: string
   name: string
   alias?: string
   cloudProvider?: string
@@ -43,4 +55,11 @@ export interface ModuleMetadataModel {
   description: string
   tags: string[]
   versions: ModuleMetadataVersion[]
+}
+
+export interface ModuleInterfaceModel {
+  id: string
+  name: string
+  variables?: ModuleMetadataVariable[]
+  outputs?: ModuleMetadataOutput[]
 }
