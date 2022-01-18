@@ -8,14 +8,14 @@ variable "login_user" {
 variable "string_var" {
   type        = string
   description = "String variable"
-  default     = "test"
+  default     = "test" # comment
   sensitive   = true
 }
 
 variable "flag" {
   type        = bool
   description = "Flag value"
-  default     = false
+  default     = false # comment
 }
 
 variable "list_string" {
@@ -23,7 +23,9 @@ variable "list_string" {
   description = "List of strings value"
   default     = [
     "test1",
-    "test2"
+    # comment
+    "test2",
+    ""
   ]
 }
 
@@ -43,6 +45,7 @@ variable "multi_line_type2" {
       nested_value = string
     })
   })
+  #default = "comment"
 }
 
 variable "multi_line_type3" {
