@@ -3,10 +3,9 @@ import {describe, test, expect} from '@jest/globals'
 import Optional from 'js-optional'
 import {first} from '../../../src/util/array-util'
 
-
 describe('first', () => {
   test('canary verifies test infrastructure', () => {
-    expect(true).toBe(true);
+    expect(true).toBe(true)
   })
 
   describe('when called with undefined', () => {
@@ -27,10 +26,10 @@ describe('first', () => {
 
   describe('when called with array', () => {
     test('then should return Optional with first element', async () => {
-      const result: Optional = first(["a", "b", "c", "d"])
+      const result: Optional = first(['a', 'b', 'c', 'd'])
 
       expect(result.isPresent()).toBe(true)
-      expect(result.get()).toBe("a")
-    });
-  });
+      expect(result.get()).toBe('a')
+    })
+  })
 })

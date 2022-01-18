@@ -1,4 +1,3 @@
-import {Octokit} from '@octokit/action'
 import {Container} from 'typescript-ioc'
 import YAML from 'js-yaml'
 import {get, Response} from 'superagent'
@@ -277,7 +276,7 @@ export class ModuleMetadataService {
   }
 
   processMetadata(metadata: ModuleMetadataModel): {
-    variables: string[],
+    variables: string[]
     outputs: string[]
   } {
     const variables: string[] = first(metadata.versions)
@@ -302,10 +301,7 @@ export class ModuleMetadataService {
   }
 }
 
-const testInterface = (module: {
-  variables: string[]
-  outputs: string[]
-}) => {
+const testInterface = (module: {variables: string[]; outputs: string[]}) => {
   return (val: ModuleInterfaceModel): InterfaceError | undefined => {
     const missingVariables: string[] = rightDifference(
       module.variables,
