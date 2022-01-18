@@ -4,18 +4,19 @@ author: 'Your name or organization here'
 inputs:
   tagName:
     description: The tag that will used for the module version
-    required: true
+    required: false
+    default: v0.1.0
   distDir:
     description: The directory where the catalog should be output
     required: true
   strict:
     description: Flag indicating that strict validation should be performed
     required: false
-    default: false
+    default: "false"
   validate:
     description: Flag indicating that the module metadata should be validated
     required: false
-    default: true
+    default: "true"
   publishBranch:
     description: The branch where the catalog should be published
     required: false
