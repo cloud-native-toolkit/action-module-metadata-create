@@ -74,6 +74,7 @@ function run() {
                     strict
                 });
             }
+            yield (0, fs_extra_1.mkdirp)(distDir);
             yield new yaml_file_1.YamlFile((0, path_1.join)(distDir, 'index.yaml'), metadata).write();
             yield (0, fs_extra_1.copyFile)('README.md', (0, path_1.join)(distDir, 'README.md'));
         }
