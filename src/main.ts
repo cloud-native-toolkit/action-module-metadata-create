@@ -1,10 +1,14 @@
 import * as core from '@actions/core'
 import * as github from '@actions/github'
 import {Octokit} from '@octokit/action'
+import {join} from 'path'
+import {copyFile} from 'fs-extra';
+
 import {Container} from 'typescript-ioc'
 import {ModuleMetadataService} from './services'
 import {LoggerApi} from './util/logger'
 import {ActionLogger} from './util/logger/logger.action'
+import {YamlFile} from './util/yaml-file/yaml-file';
 
 async function run(): Promise<void> {
   try {
@@ -46,8 +50,8 @@ async function run(): Promise<void> {
       })
     }
 
-    // write metadata file to {distDir}
-    // copy README.md to {distDir}
+    await (new YamlFile(join(distDir, 'index.yaml'), metadata)).write()
+    await copyFile('README.md', join(distDir, 'README.md'))
   } catch (error) {
     if (error instanceof Error) core.setFailed(error.message)
   }
