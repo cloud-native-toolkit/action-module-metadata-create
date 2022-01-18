@@ -4,6 +4,24 @@ output "id" {
   depends_on  = [null_resource.oc_login]
 }
 
+output "name" {
+  value       = "cluster"
+  description = "Name of the cluster"
+  depends_on  = [null_resource.oc_login]
+}
+
+output "region" {
+  value       = ""
+  description = "Region of the cluster"
+  depends_on  = [null_resource.oc_login]
+}
+
+output "resource_group_name" {
+  value       = ""
+  description = "Resource group of the cluster"
+  depends_on  = [null_resource.oc_login]
+}
+
 output "server_url" {
   value       = var.server_url
   description = "The url of the control server."
