@@ -114,6 +114,7 @@ export class ModuleMetadataService {
     const result: string[] = metadataVariables
       .map(m => m.name)
       .filter(m => !variableNames.includes(m))
+
     if (strict && result.length > 0) {
       throw new Error(
         `Variables in metadata that don't exist in module: ${JSON.stringify(
@@ -134,6 +135,12 @@ export class ModuleMetadataService {
       )
 
       if (metadataVariable) {
+        this.logger.info(
+          `Merging variable: ${JSON.stringify({
+            terraform: t,
+            metadata: metadataVariable
+          })}`
+        )
         return Object.assign({}, t, metadataVariable)
       }
 

@@ -59,8 +59,8 @@ function run() {
             if (!repoSlug) {
                 throw new Error('gitSlug param and GITHUB_REPOSITORY env variable not set');
             }
-            logger.info('Creating metadata');
             const service = new services_1.ModuleMetadataService();
+            logger.info('Creating metadata');
             const { metadata } = yield service.create({
                 version: tagName,
                 repoSlug,
@@ -69,6 +69,7 @@ function run() {
                 metadataFile
             });
             if (validate) {
+                logger.info('Validating metadata');
                 yield service.verify({
                     metadata,
                     strict
@@ -233,6 +234,7 @@ class ModuleMetadataService {
             return variables.map(t => {
                 const metadataVariable = (0, array_util_1.first)(metadataVariables.filter(m => m.name === t.name));
                 if (metadataVariable) {
+                    this.logger.info(`Merging variable: ${JSON.stringify({ terraform: t, metadata: metadataVariable })}`);
                     return Object.assign({}, t, metadataVariable);
                 }
                 return t;

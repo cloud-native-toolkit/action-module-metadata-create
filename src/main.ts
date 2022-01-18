@@ -31,9 +31,9 @@ async function run(): Promise<void> {
       )
     }
 
-    logger.info('Creating metadata')
-
     const service: ModuleMetadataService = new ModuleMetadataService()
+
+    logger.info('Creating metadata')
     const {metadata} = await service.create({
       version: tagName,
       repoSlug,
@@ -43,6 +43,7 @@ async function run(): Promise<void> {
     })
 
     if (validate) {
+      logger.info('Validating metadata')
       await service.verify({
         metadata,
         strict
