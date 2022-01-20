@@ -676,7 +676,9 @@ class TerraformFile {
                         terraform.outputs.push(current);
                     }
                     else if (/^ *type *= *(.*)/g.test(line)) {
-                        const type = line.replace(/^ *type *= *(.*)/g, '$1');
+                        const type = line
+                            .replace(/^ *type *= *(.*)/g, '$1')
+                            .trim();
                         current.type = multiLineValue = new MultiLineValue(type);
                         if (multiLineValue.isComplete()) {
                             multiLineValue = undefined;
