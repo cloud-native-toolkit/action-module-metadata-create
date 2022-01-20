@@ -221,7 +221,8 @@ class ModuleMetadataService {
     parseModuleVariables(metadataVariables, strict = false) {
         return __awaiter(this, void 0, void 0, function* () {
             const { variables } = yield terraform_file_1.TerraformFile.load('variables.tf');
-            this.logger.info(`Metadata variables: ${JSON.stringify(metadataVariables)}`);
+            this.logger.debug(`Metadata variables: ${JSON.stringify(metadataVariables)}`);
+            this.logger.debug(`Terraform variables: ${JSON.stringify(variables)}`);
             const variableNames = variables.map(v => v.name);
             const result = metadataVariables
                 .map(m => m.name)
@@ -236,7 +237,7 @@ class ModuleMetadataService {
                 const filteredVariables = metadataVariables.filter(m => m.name === t.name);
                 if (filteredVariables.length > 0) {
                     const metadataVariable = filteredVariables[0];
-                    this.logger.info(`Merging variable: ${JSON.stringify({
+                    this.logger.debug(`Merging variable: ${JSON.stringify({
                         terraform: t,
                         metadata: metadataVariable
                     })}`);
@@ -261,8 +262,8 @@ class ModuleMetadataService {
             }
             return outputs.map(t => {
                 const metadataOutput = (0, array_util_1.first)(metadataOutputs.filter(m => m.name === t.name));
-                if (metadataOutput) {
-                    return Object.assign({}, t, metadataOutput);
+                if (metadataOutput.isPresent()) {
+                    return Object.assign({}, t, metadataOutput.get());
                 }
                 return t;
             });
@@ -611,8 +612,7 @@ class MultiLineValue {
         this.add(line);
     }
     add(line) {
-        const cleanedLine = line
-            .replace(/ +#.*/g, '');
+        const cleanedLine = line.replace(/ +#.*/g, '');
         this.lines.push(cleanedLine);
         return this;
     }
@@ -660,7 +660,9 @@ class TerraformFile {
                         }
                     }
                     else if (/^variable.* {/g.test(line)) {
-                        const name = line.replace(/variable "(.*)" {/g, '$1');
+                        const name = line
+                            .replace(/variable "(.*)" {/g, '$1')
+                            .trim();
                         current = {
                             name
                         };
@@ -685,8 +687,7 @@ class TerraformFile {
                         current.description = description;
                     }
                     else if (/^ *default *= *(.*)/g.test(line)) {
-                        const defaultValue = line
-                            .replace(/^ *default *= *(.*)/g, '$1');
+                        const defaultValue = line.replace(/^ *default *= *(.*)/g, '$1');
                         current.default = multiLineValue = new MultiLineValue(defaultValue);
                         if (multiLineValue.isComplete()) {
                             multiLineValue = undefined;

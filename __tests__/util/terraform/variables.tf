@@ -60,3 +60,9 @@ variable "multi_line_type3" {
     }
   }]
 }
+
+variable "resource_label" {
+  type        = string
+  description = "The label for the resource to which the vpe will be connected. Used as a tag and as part of the vpe name."
+  default     = "vpn"
+}

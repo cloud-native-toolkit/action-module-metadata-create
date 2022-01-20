@@ -1,7 +1,5 @@
 import {mapSync, split} from 'event-stream'
 import {createReadStream} from 'fs-extra'
-import {ReadStream} from 'fs'
-import {last} from '../array-util'
 
 export interface TerraformVariableModel {
   name: string
@@ -91,7 +89,9 @@ export class TerraformFile {
                 multiLineValue = undefined
               }
             } else if (/^variable.* {/g.test(line)) {
-              const name: string = line.replace(/variable "(.*)" {/g, '$1')
+              const name: string = line
+                .replace(/variable "(.*)" {/g, '$1')
+                .trim()
 
               current = {
                 name
