@@ -2,6 +2,8 @@ import {Container} from 'typescript-ioc'
 import YAML from 'js-yaml'
 import {get, Response} from 'superagent'
 import ZSchema from 'z-schema'
+// @ts-ignore
+import Optional from 'js-optional';
 
 import {LoggerApi} from '../util/logger'
 import {
@@ -109,7 +111,8 @@ export class ModuleMetadataService {
   ): Promise<ModuleMetadataVariable[]> {
     const {variables} = await TerraformFile.load('variables.tf')
 
-    this.logger.info(`Metadata variables: ${JSON.stringify(metadataVariables)}`)
+    this.logger.debug(`Metadata variables: ${JSON.stringify(metadataVariables)}`)
+    this.logger.debug(`Terraform variables: ${JSON.stringify(variables)}`)
 
     const variableNames = variables.map(v => v.name)
 
@@ -138,7 +141,7 @@ export class ModuleMetadataService {
       if (filteredVariables.length > 0) {
         const metadataVariable: ModuleMetadataVariable = filteredVariables[0]
 
-        this.logger.info(
+        this.logger.debug(
           `Merging variable: ${JSON.stringify({
             terraform: t,
             metadata: metadataVariable
@@ -177,12 +180,12 @@ export class ModuleMetadataService {
     }
 
     return outputs.map(t => {
-      const metadataOutput: ModuleMetadataOutput | undefined = first(
+      const metadataOutput: Optional<ModuleMetadataOutput> = first(
         metadataOutputs.filter(m => m.name === t.name)
       )
 
-      if (metadataOutput) {
-        return Object.assign({}, t, metadataOutput)
+      if (metadataOutput.isPresent()) {
+        return Object.assign({}, t, metadataOutput.get())
       }
 
       return t

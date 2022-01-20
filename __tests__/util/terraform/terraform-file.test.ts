@@ -68,6 +68,12 @@ describe('terraform-file', () => {
     }
   }]`
         })
+        expect(result.variables[8]).toEqual({
+          name: 'resource_label',
+          type: 'string',
+          description: 'The label for the resource to which the vpe will be connected. Used as a tag and as part of the vpe name.',
+          default: 'vpn'
+        })
       })
     })
     describe('when passed outputs.tf', () => {

@@ -91,7 +91,9 @@ export class TerraformFile {
                 multiLineValue = undefined
               }
             } else if (/^variable.* {/g.test(line)) {
-              const name: string = line.replace(/variable "(.*)" {/g, '$1')
+              const name: string = line
+                .replace(/variable "(.*)" {/g, '$1')
+                .trim()
 
               current = {
                 name
