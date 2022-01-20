@@ -2,8 +2,9 @@ import {Container} from 'typescript-ioc'
 import YAML from 'js-yaml'
 import {get, Response} from 'superagent'
 import ZSchema from 'z-schema'
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-import Optional from 'js-optional';
+import Optional from 'js-optional'
 
 import {LoggerApi} from '../util/logger'
 import {
@@ -111,7 +112,9 @@ export class ModuleMetadataService {
   ): Promise<ModuleMetadataVariable[]> {
     const {variables} = await TerraformFile.load('variables.tf')
 
-    this.logger.debug(`Metadata variables: ${JSON.stringify(metadataVariables)}`)
+    this.logger.debug(
+      `Metadata variables: ${JSON.stringify(metadataVariables)}`
+    )
     this.logger.debug(`Terraform variables: ${JSON.stringify(variables)}`)
 
     const variableNames = variables.map(v => v.name)

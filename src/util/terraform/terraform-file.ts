@@ -1,7 +1,5 @@
 import {mapSync, split} from 'event-stream'
 import {createReadStream} from 'fs-extra'
-import {ReadStream} from 'fs'
-import {last} from '../array-util'
 
 export interface TerraformVariableModel {
   name: string
