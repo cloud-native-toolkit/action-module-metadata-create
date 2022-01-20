@@ -105,7 +105,9 @@ export class TerraformFile {
               }
               terraform.outputs.push(current)
             } else if (/^ *type *= *(.*)/g.test(line)) {
-              const type: string = line.replace(/^ *type *= *(.*)/g, '$1')
+              const type: string = line
+                .replace(/^ *type *= *(.*)/g, '$1')
+                .trim()
 
               current.type = multiLineValue = new MultiLineValue(type)
 
