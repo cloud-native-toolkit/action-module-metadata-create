@@ -222,8 +222,8 @@ class ModuleMetadataService {
         return __awaiter(this, void 0, void 0, function* () {
             this.logger.info(`Parsing module variables...`);
             const { variables } = yield terraform_file_1.TerraformFile.load('variables.tf');
-            this.logger.debug(`Metadata variables: ${JSON.stringify(metadataVariables)}`);
-            this.logger.debug(`Terraform variables: ${JSON.stringify(variables)}`);
+            this.logger.info(`Metadata variables: ${JSON.stringify(metadataVariables)}`);
+            this.logger.info(`Terraform variables: ${JSON.stringify(variables)}`);
             const variableNames = variables.map(v => v.name);
             const result = metadataVariables
                 .map(m => m.name)
@@ -238,7 +238,7 @@ class ModuleMetadataService {
                 const filteredVariables = metadataVariables.filter(m => m.name === t.name);
                 if (filteredVariables.length > 0) {
                     const metadataVariable = filteredVariables[0];
-                    this.logger.debug(`Merging variable: ${JSON.stringify({
+                    this.logger.info(`Merging variable: ${JSON.stringify({
                         terraform: t,
                         metadata: metadataVariable
                     })}`);

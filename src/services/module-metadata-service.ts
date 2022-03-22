@@ -114,10 +114,10 @@ export class ModuleMetadataService {
 
     const {variables} = await TerraformFile.load('variables.tf')
 
-    this.logger.debug(
+    this.logger.info(
       `Metadata variables: ${JSON.stringify(metadataVariables)}`
     )
-    this.logger.debug(`Terraform variables: ${JSON.stringify(variables)}`)
+    this.logger.info(`Terraform variables: ${JSON.stringify(variables)}`)
 
     const variableNames = variables.map(v => v.name)
 
@@ -146,7 +146,7 @@ export class ModuleMetadataService {
       if (filteredVariables.length > 0) {
         const metadataVariable: ModuleMetadataVariable = filteredVariables[0]
 
-        this.logger.debug(
+        this.logger.info(
           `Merging variable: ${JSON.stringify({
             terraform: t,
             metadata: metadataVariable
