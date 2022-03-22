@@ -12,7 +12,7 @@ variable "string_var" {
   sensitive   = true
 }
 
-variable "flag" {
+variable "flag"{
   type        = bool
   description = "Flag value"
   default     = false # comment
