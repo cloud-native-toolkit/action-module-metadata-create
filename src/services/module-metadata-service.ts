@@ -110,6 +110,8 @@ export class ModuleMetadataService {
     metadataVariables: ModuleMetadataVariable[],
     strict = false
   ): Promise<ModuleMetadataVariable[]> {
+    this.logger.info(`Parsing module variables...`)
+
     const {variables} = await TerraformFile.load('variables.tf')
 
     this.logger.debug(
@@ -161,6 +163,7 @@ export class ModuleMetadataService {
     metadataOutputs: ModuleMetadataOutput[] = [],
     strict = false
   ): Promise<ModuleMetadataOutput[]> {
+    this.logger.info(`Parsing module outputs...`)
     const {outputs} = await TerraformFile.load('outputs.tf')
 
     const outputNames = outputs.map(o => o.name)
@@ -204,6 +207,7 @@ export class ModuleMetadataService {
     publishBranch: string
     repoSlug: string
   }): Promise<ModuleMetadataModel> {
+    this.logger.info(`Merging module metadata...`)
     const existingMetadata: ModuleMetadataModel | undefined =
       await this.loadMetadata({publishBranch, repoSlug})
 
