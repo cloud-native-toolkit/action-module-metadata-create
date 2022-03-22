@@ -220,6 +220,7 @@ class ModuleMetadataService {
     }
     parseModuleVariables(metadataVariables, strict = false) {
         return __awaiter(this, void 0, void 0, function* () {
+            this.logger.info(`Parsing module variables...`);
             const { variables } = yield terraform_file_1.TerraformFile.load('variables.tf');
             this.logger.debug(`Metadata variables: ${JSON.stringify(metadataVariables)}`);
             this.logger.debug(`Terraform variables: ${JSON.stringify(variables)}`);
@@ -249,6 +250,7 @@ class ModuleMetadataService {
     }
     parseModuleOutputs(metadataOutputs = [], strict = false) {
         return __awaiter(this, void 0, void 0, function* () {
+            this.logger.info(`Parsing module outputs...`);
             const { outputs } = yield terraform_file_1.TerraformFile.load('outputs.tf');
             const outputNames = outputs.map(o => o.name);
             const result = metadataOutputs
@@ -271,6 +273,7 @@ class ModuleMetadataService {
     }
     mergeModuleMetadata({ metadata, publishBranch, repoSlug }) {
         return __awaiter(this, void 0, void 0, function* () {
+            this.logger.info(`Merging module metadata...`);
             const existingMetadata = yield this.loadMetadata({ publishBranch, repoSlug });
             if (!existingMetadata) {
                 return metadata;
