@@ -54,6 +54,7 @@ async function run(): Promise<void> {
     await new YamlFile(join(distDir, 'index.yaml'), metadata).write()
     await copyFile('README.md', join(distDir, 'README.md'))
 
+    logger.info('dist directory contents:')
     readdir(distDir, (err, files) => {
       files.forEach(file => {
         logger.info(file)
