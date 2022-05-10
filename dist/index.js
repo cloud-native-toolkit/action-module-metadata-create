@@ -75,9 +75,18 @@ function run() {
                     strict
                 });
             }
+            logger.info('Creating output directory: ' + distDir);
             yield (0, fs_extra_1.mkdirp)(distDir);
+            logger.info('Writing yaml metadata');
             yield new yaml_file_1.YamlFile((0, path_1.join)(distDir, 'index.yaml'), metadata).write();
+            logger.info('Copying README.md');
             yield (0, fs_extra_1.copyFile)('README.md', (0, path_1.join)(distDir, 'README.md'));
+            logger.info('Directory contents:');
+            (0, fs_extra_1.readdir)(distDir, (err, files) => {
+                files.forEach(file => {
+                    logger.info(file);
+                });
+            });
         }
         catch (error) {
             if (error instanceof Error)

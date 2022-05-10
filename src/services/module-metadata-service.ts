@@ -114,9 +114,7 @@ export class ModuleMetadataService {
 
     const {variables} = await TerraformFile.load('variables.tf')
 
-    this.logger.info(
-      `Metadata variables: ${JSON.stringify(metadataVariables)}`
-    )
+    this.logger.info(`Metadata variables: ${JSON.stringify(metadataVariables)}`)
     this.logger.info(`Terraform variables: ${JSON.stringify(variables)}`)
 
     const variableNames = variables.map(v => v.name)
