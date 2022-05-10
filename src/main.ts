@@ -1,6 +1,6 @@
 import * as core from '@actions/core'
 import {join} from 'path'
-import {copyFile, mkdirp} from 'fs-extra'
+import {copyFile, mkdirp, readdir} from 'fs-extra'
 import {Container} from 'typescript-ioc'
 
 import {ModuleMetadataService} from './services'
@@ -53,6 +53,12 @@ async function run(): Promise<void> {
     await mkdirp(distDir)
     await new YamlFile(join(distDir, 'index.yaml'), metadata).write()
     await copyFile('README.md', join(distDir, 'README.md'))
+
+    readdir(distDir, (err, files) => {
+      files.forEach(file => {
+        logger.info(file)
+      });
+    });
   } catch (error) {
     if (error instanceof Error) core.setFailed(error.message)
   }
