@@ -62,8 +62,8 @@ async function run(): Promise<void> {
     readdir(distDir, (err, files) => {
       files.forEach(file => {
         logger.info(file)
-      });
-    });
+      })
+    })
   } catch (error) {
     if (error instanceof Error) core.setFailed(error.message)
   }
