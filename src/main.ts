@@ -50,11 +50,15 @@ async function run(): Promise<void> {
       })
     }
 
+    logger.info('Creating output directory: ' + distDir)
     await mkdirp(distDir)
+
+    logger.info('Writing yaml metadata')
     await new YamlFile(join(distDir, 'index.yaml'), metadata).write()
+    logger.info('Copying README.md')
     await copyFile('README.md', join(distDir, 'README.md'))
 
-    logger.info('dist directory contents:')
+    logger.info('Directory contents:')
     readdir(distDir, (err, files) => {
       files.forEach(file => {
         logger.info(file)
