@@ -68,7 +68,6 @@ function run() {
                 publishBranch,
                 metadataFile
             });
-            logger.info(JSON.stringify(metadata, undefined, "  "));
             if (validate) {
                 logger.info('Validating metadata');
                 yield service.verify({

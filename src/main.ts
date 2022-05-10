@@ -41,7 +41,6 @@ async function run(): Promise<void> {
       publishBranch,
       metadataFile
     })
-    logger.info(JSON.stringify(metadata, undefined, '  '))
 
     if (validate) {
       logger.info('Validating metadata')
