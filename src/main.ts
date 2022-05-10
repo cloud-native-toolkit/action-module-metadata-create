@@ -42,6 +42,8 @@ async function run(): Promise<void> {
       metadataFile
     })
 
+    logger.info(JSON.stringify(metadata, undefined, '  '))
+
     if (validate) {
       logger.info('Validating metadata')
       await service.verify({
