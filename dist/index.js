@@ -68,7 +68,7 @@ function run() {
                 publishBranch,
                 metadataFile
             });
-            logger.info(JSON.stringify(metadata, undefined, "  "));
+            logger.info(JSON.stringify(metadata, undefined, '  '));
             if (validate) {
                 logger.info('Validating metadata');
                 yield service.verify({
@@ -312,7 +312,9 @@ class ModuleMetadataService {
     verify({ metadata }) {
         return __awaiter(this, void 0, void 0, function* () {
             const schema = yield this.loadSchema();
+            this.logger.info("Validating Schema");
             yield this.validateSchema(metadata, schema);
+            this.logger.info("Validating Interfaces");
             yield this.validateInterfaces(metadata);
             return {};
         });
@@ -320,6 +322,7 @@ class ModuleMetadataService {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     loadSchema() {
         return __awaiter(this, void 0, void 0, function* () {
+            this.logger.info("Loading Schema");
             const url = 'https://modules.cloudnativetoolkit.dev/schemas/module.json';
             const response = yield (0, superagent_1.get)(url);
             const result = response.text;
