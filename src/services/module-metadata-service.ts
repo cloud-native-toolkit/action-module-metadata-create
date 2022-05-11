@@ -244,8 +244,10 @@ export class ModuleMetadataService {
   async verify({metadata}: ModuleServiceVerifyParams): Promise<{}> {
     const schema = await this.loadSchema()
 
+    this.logger.info('Validating Schema')
     await this.validateSchema(metadata, schema)
 
+    this.logger.info('Validating Interfaces')
     await this.validateInterfaces(metadata)
 
     return {}
@@ -253,6 +255,7 @@ export class ModuleMetadataService {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   async loadSchema(): Promise<any> {
+    this.logger.info('Loading Schema')
     const url = 'https://modules.cloudnativetoolkit.dev/schemas/module.json'
 
     const response: Response = await get(url)
