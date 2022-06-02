@@ -107,7 +107,7 @@ export class ModuleMetadataService {
   }
 
   async parseModuleVariables(
-    metadataVariables: ModuleMetadataVariable[],
+    metadataVariables: ModuleMetadataVariable[] = [],
     strict = false
   ): Promise<ModuleMetadataVariable[]> {
     this.logger.info(`Parsing module variables...`)
